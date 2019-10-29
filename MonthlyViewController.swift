@@ -92,17 +92,17 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
     func GetStartDateDayPosition() {
         switch Direction{
         case 0:
-            switch day {
+            switch todaysDay {
             case 1...7:
-                NumberOfEmptyBox = weekday - day
+                NumberOfEmptyBox = todaysWeekday - todaysDay
             case 8...14:
-                NumberOfEmptyBox = weekday - day + 7
+                NumberOfEmptyBox = todaysWeekday - todaysDay + 7
             case 15...21:
-                NumberOfEmptyBox = weekday - day + 14
+                NumberOfEmptyBox = todaysWeekday - todaysDay + 14
             case 22...28:
-                NumberOfEmptyBox = weekday - day + 21
+                NumberOfEmptyBox = todaysWeekday - todaysDay + 21
             case 29...31:
-                NumberOfEmptyBox = weekday - day + 28
+                NumberOfEmptyBox = todaysWeekday - todaysDay + 28
             default:
                 break
             }
@@ -169,10 +169,10 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
         default:
             break
         }
-        if currentMonth == Months[calendar.component(.month, from: date) - 1] && year == calendar.component(.year, from: date) && indexPath.row + 1 - PositionIndex == todaysDay {
+        if currentMonth == Months[calendar.component(.month, from: today) - 1] && year == calendar.component(.year, from: today) && indexPath.row + 1 - PositionIndex == todaysDay {
             cell.backgroundColor = UIColor.red
         }
-        if month > calendar.component(.month, from: date) - 1 || year > calendar.component(.year, from: date) || (month == calendar.component(.month, from: date) - 1 && indexPath.row + 1 - PositionIndex > todaysDay)  {
+        if month > calendar.component(.month, from: today) - 1 || year > calendar.component(.year, from: today) || (month == calendar.component(.month, from: today) - 1 && indexPath.row + 1 - PositionIndex > todaysDay)  {
             cell.isUserInteractionEnabled = false
         }
         return cell

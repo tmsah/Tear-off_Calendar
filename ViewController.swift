@@ -16,16 +16,17 @@ class ViewController: UIViewController {
     @IBOutlet var dayLabel: UILabel!
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var weekdayLabel: UILabel!
-
-    var dayCount = -1
     
     var images: [UIImage] = []
     var weekDays: [String] = []
     
     let today = Date(timeIntervalSinceNow: TimeInterval())
+    var firstDay = Date()
+
     var lastDay = Date()
 
     var selectedDate = Date()
+    var thisDay = Date()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,11 +34,12 @@ class ViewController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.locale = NSLocale(localeIdentifier: "ja_JP") as Locale
+        firstDay = dateFormatter.date(from: "2018-12-31")!
         lastDay = dateFormatter.date(from: "2021-01-01")!
 
         images = [UIImage(named: "sunday.jpg")!, UIImage(named: "monday.jpg")!, UIImage(named: "tuesday.jpg")!, UIImage(named: "wednesday.JPG")!, UIImage(named: "thursday.jpg")!, UIImage(named: "friday.jpg")!, UIImage(named: "saturday.jpg")!]
         weekDays = ["日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"]
-//        showDate(thisDay: date)
+        showDate(thisDay: today)
 
         gestureInitialize()
     }
@@ -93,23 +95,25 @@ class ViewController: UIViewController {
     }
     
     @objc func prevDay() {  //todo: 表紙の時はめくれない設定
-        dayCount -= 1
-        UIView.beginAnimations("TransitionAnimation", context: nil)
-        UIView.setAnimationTransition(UIView.AnimationTransition.curlDown, for: self.view, cache: true)
-        UIView.setAnimationDuration(1)
-        let yesterday = calendar.date(byAdding: .day, value: dayCount, to: calendar.startOfDay(for: date))!
-        showDate(thisDay: yesterday)
-        UIView.commitAnimations()
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: thisDay))!
+        if (yesterday.compare(firstDay) == .orderedDescending) {
+            UIView.beginAnimations("TransitionAnimation", context: nil)
+            UIView.setAnimationTransition(UIView.AnimationTransition.curlDown, for: self.view, cache: true)
+            UIView.setAnimationDuration(1)
+            showDate(thisDay: yesterday)
+            thisDay = yesterday
+            UIView.commitAnimations()
+        }
     }
     
     @objc func nextDay() {
-        if dayCount < 0 {
-            dayCount += 1
+        let tomorrow = calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: thisDay))!
+        if (tomorrow.compare(today) == .orderedAscending && tomorrow.compare(lastDay) == .orderedAscending) {
             UIView.beginAnimations("TransitionAnimation", context: nil)
             UIView.setAnimationTransition(UIView.AnimationTransition.curlUp, for: self.view, cache: true)
             UIView.setAnimationDuration(1)
-            let tomorrow = calendar.date(byAdding: .day, value: dayCount, to: calendar.startOfDay(for: date))!
             showDate(thisDay: tomorrow)
+            thisDay = tomorrow
             UIView.commitAnimations()
         }
 
@@ -118,6 +122,7 @@ class ViewController: UIViewController {
     @IBAction func goBack(_ segue:UIStoryboardSegue) {  //　戻ってきたときに呼ばれる
         print(selectedDate)
         showDate(thisDay: selectedDate)
+        thisDay = selectedDate
     }
 
     // セグエ遷移用に追加 ↓↓↓
