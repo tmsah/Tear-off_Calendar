@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var weekdayLabel: UILabel!
 
-    var dayCount = 0
+    var dayCount = -1
     
     var images: [UIImage] = []
     var weekDays: [String] = []
@@ -25,24 +25,24 @@ class ViewController: UIViewController {
     let today = Date(timeIntervalSinceNow: TimeInterval())
     var lastDay = Date()
 
+    var selectedDate = Date()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.locale = NSLocale(localeIdentifier: "ja_JP") as Locale
-        lastDay = dateFormatter.date(from: "2021-01-01 00:00:00")!
+        lastDay = dateFormatter.date(from: "2021-01-01")!
 
         images = [UIImage(named: "sunday.jpg")!, UIImage(named: "monday.jpg")!, UIImage(named: "tuesday.jpg")!, UIImage(named: "wednesday.JPG")!, UIImage(named: "thursday.jpg")!, UIImage(named: "friday.jpg")!, UIImage(named: "saturday.jpg")!]
         weekDays = ["日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"]
-        showDate()
-        
+//        showDate(thisDay: date)
+
         gestureInitialize()
     }
     
-    func showDate() {
-        let seconds = TimeInterval(dayCount*24*60*60)
-        let thisDay = Date(timeIntervalSinceNow: seconds)
+    func showDate(thisDay: Date) {
         if (thisDay.compare(lastDay) == .orderedDescending) {
             print("カレンダーは終了しました．")
         }
@@ -83,14 +83,6 @@ class ViewController: UIViewController {
     }
     
     func gestureInitialize() {
-        /*let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(prevDay))
-        leftSwipe.direction = .left
-        self.view.addGestureRecognizer(leftSwipe)
-        
-        let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(nextDay))
-        rightSwipe.direction = .right
-        self.view.addGestureRecognizer(rightSwipe)*/
-        
         let upSwipe = UISwipeGestureRecognizer(target: self, action: #selector(nextDay))
         upSwipe.direction = .up
         self.view.addGestureRecognizer(upSwipe)
@@ -100,12 +92,13 @@ class ViewController: UIViewController {
         self.view.addGestureRecognizer(downSwipe)
     }
     
-    @objc func prevDay() {
+    @objc func prevDay() {  //todo: 表紙の時はめくれない設定
         dayCount -= 1
         UIView.beginAnimations("TransitionAnimation", context: nil)
         UIView.setAnimationTransition(UIView.AnimationTransition.curlDown, for: self.view, cache: true)
         UIView.setAnimationDuration(1)
-        showDate()
+        let yesterday = calendar.date(byAdding: .day, value: dayCount, to: calendar.startOfDay(for: date))!
+        showDate(thisDay: yesterday)
         UIView.commitAnimations()
     }
     
@@ -115,17 +108,16 @@ class ViewController: UIViewController {
             UIView.beginAnimations("TransitionAnimation", context: nil)
             UIView.setAnimationTransition(UIView.AnimationTransition.curlUp, for: self.view, cache: true)
             UIView.setAnimationDuration(1)
-            showDate()
+            let tomorrow = calendar.date(byAdding: .day, value: dayCount, to: calendar.startOfDay(for: date))!
+            showDate(thisDay: tomorrow)
             UIView.commitAnimations()
         }
 
     }
 
-    @IBAction func goBack(_ segue:UIStoryboardSegue) {}
-
-    @IBAction func goNext(_ sender:UIButton) {
-        let next = storyboard!.instantiateViewController(withIdentifier: "nextView")
-        self.present(next,animated: true, completion: nil)
+    @IBAction func goBack(_ segue:UIStoryboardSegue) {  //　戻ってきたときに呼ばれる
+        print(selectedDate)
+        showDate(thisDay: selectedDate)
     }
 
     // セグエ遷移用に追加 ↓↓↓
