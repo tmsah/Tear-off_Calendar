@@ -11,7 +11,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Carender" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -64,6 +64,7 @@
                         <outlet property="ImageView" destination="5eT-dP-LFc" id="r7k-5m-gMt"/>
                         <outlet property="dayLabel" destination="Zlb-0P-v9e" id="96m-ZT-dqS"/>
                         <outlet property="monthLabel" destination="1B2-wr-sjG" id="DDa-H0-TiW"/>
+                        <outlet property="toMonthlyButton" destination="FL9-fz-bPj" id="h69-ZM-wAs"/>
                         <outlet property="weekdayLabel" destination="CPL-tq-qF8" id="FLe-6m-ine"/>
                         <outlet property="yearLabel" destination="84m-qk-EyO" id="FXN-Bp-oyI"/>
                         <segue destination="ibg-Ic-Emo" kind="show" identifier="toMonthly" id="QfN-U5-fAX"/>
@@ -76,7 +77,7 @@
         <!--Monthly View Controller-->
         <scene sceneID="KUh-I0-RWi">
             <objects>
-                <viewController id="ibg-Ic-Emo" customClass="MonthlyViewController" customModule="Carender" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ibg-Ic-Emo" customClass="MonthlyViewController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="N1n-5u-Iiz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -123,7 +124,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MonthlyCalendar" id="ysN-WU-3wx" customClass="DateCollectionViewCell" customModule="Carender" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MonthlyCalendar" id="ysN-WU-3wx" customClass="DateCollectionViewCell" customModule="Calendar" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ygG-lI-eoC">

@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     @IBOutlet var dayLabel: UILabel!
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var weekdayLabel: UILabel!
+    @IBOutlet var toMonthlyButton: UIButton!
     
     var images: [UIImage] = []
     var weekDays: [String] = []
@@ -42,6 +43,7 @@ class ViewController: UIViewController {
         showDate(thisDay: today)
 
         gestureInitialize()
+//        toMonthlyButton.isHidden = true
     }
     
     func showDate(thisDay: Date) {
@@ -114,6 +116,7 @@ class ViewController: UIViewController {
             UIView.setAnimationDuration(1)
             showDate(thisDay: tomorrow)
             thisDay = tomorrow
+            toMonthlyButton.isHidden = false
             UIView.commitAnimations()
         }
 

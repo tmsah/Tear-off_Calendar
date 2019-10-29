@@ -181,7 +181,7 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
         let cell = collectionView.cellForItem(at: indexPath as IndexPath)!
         cell.backgroundColor = UIColor.blue // タップしているときの色にする
         
-        let selectedDay = String(format: "%04d", year) + "-" + String(format: "%02d", month + 1) + "-" + String(format: "%02d", indexPath.item)
+        let selectedDay = String(format: "%04d", year) + "-" + String(format: "%02d", month + 1) + "-" + String(format: "%02d", indexPath.item + 1 - PositionIndex)
         let dateFormater = DateFormatter()
         dateFormater.dateFormat = "yyyy-MM-dd"
         selectedDate = dateFormater.date(from: selectedDay)!
