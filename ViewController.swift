@@ -41,6 +41,7 @@ class ViewController: UIViewController {
         images = [UIImage(named: "sunday.jpg")!, UIImage(named: "monday.jpg")!, UIImage(named: "tuesday.jpg")!, UIImage(named: "wednesday.JPG")!, UIImage(named: "thursday.jpg")!, UIImage(named: "friday.jpg")!, UIImage(named: "saturday.jpg")!]
         weekDays = ["日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"]
         showDate(thisDay: today)
+//        thisDay = today
 
         gestureInitialize()
 //        toMonthlyButton.isHidden = true
@@ -116,7 +117,7 @@ class ViewController: UIViewController {
             UIView.setAnimationDuration(1)
             showDate(thisDay: tomorrow)
             thisDay = tomorrow
-            toMonthlyButton.isHidden = false
+//            toMonthlyButton.isHidden = false
             UIView.commitAnimations()
         }
 
@@ -131,6 +132,13 @@ class ViewController: UIViewController {
     // セグエ遷移用に追加 ↓↓↓
     @IBAction func goMonthlyBySegue(_ sender: Any) {
         performSegue(withIdentifier: "toMonthly", sender: nil)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toMonthly" {
+            let vc = segue.destination as! MonthlyViewController
+            vc.thisDay = thisDay
+        }
     }
     
     override func didReceiveMemoryWarning() {

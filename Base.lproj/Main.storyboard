@@ -64,7 +64,7 @@
                         <outlet property="ImageView" destination="5eT-dP-LFc" id="r7k-5m-gMt"/>
                         <outlet property="dayLabel" destination="Zlb-0P-v9e" id="96m-ZT-dqS"/>
                         <outlet property="monthLabel" destination="1B2-wr-sjG" id="DDa-H0-TiW"/>
-                        <outlet property="toMonthlyButton" destination="FL9-fz-bPj" id="h69-ZM-wAs"/>
+                        <outlet property="toMonthlyButton" destination="FL9-fz-bPj" id="ZdY-Ce-fWp"/>
                         <outlet property="weekdayLabel" destination="CPL-tq-qF8" id="FLe-6m-ine"/>
                         <outlet property="yearLabel" destination="84m-qk-EyO" id="FXN-Bp-oyI"/>
                         <segue destination="ibg-Ic-Emo" kind="show" identifier="toMonthly" id="QfN-U5-fAX"/>

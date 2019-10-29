@@ -10,12 +10,12 @@ import UIKit
 var NumberOfEmptyBox = Int() // empty boxs number at the start of the current month
 var NextNumberOfEmptyBox = Int() // the same with the next month
 var PreviousNumberOfEmptyBox = Int() // the same with the previous month
-var Direction = 0  // =0: current month, =1: future month, =-1: past month
 var PositionIndex = 0  // store vars of empty boxes
 var LeapYearCounter = 3
 
 class MonthlyViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource{
 
+    var thisDay = Date()
 
     @IBOutlet weak var MonthlyCalendar: UICollectionView!
     
@@ -24,119 +24,68 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        Direction = 0
-        currentMonth = Months[month]
-        
-        MonthLabel.text = "\(currentMonth) \(year)"
-        
-        GetStartDateDayPosition()
+        GetStartDateDayPosition(thisDay: thisDay)
         
     }
 
     @IBAction func Next(_ sender: Any) {
-        Direction = 1
-        switch currentMonth {
-        case "12月":
-            month = 0
-            year += 1
-            
-            if LeapYearCounter < 5 {
-                LeapYearCounter += 1
-            }
-            if LeapYearCounter == 4 {
-                DaysInMonths[1] = 29
-            }
-            if LeapYearCounter == 5 {
-                LeapYearCounter = 1
-                DaysInMonths[1] = 28
-            }
+        let nextMonth = calendar.date(byAdding: .month, value: 1, to: calendar.startOfDay(for: thisDay))!
+        GetStartDateDayPosition(thisDay: nextMonth)
+        thisDay = nextMonth
 
-            GetStartDateDayPosition()
-        default:
-            GetStartDateDayPosition()
-            month += 1
-        }
-        currentMonth = Months[month]
-        MonthLabel.text = "\(currentMonth) \(year)"
         MonthlyCalendar.reloadData()
     }
     
     @IBAction func Prev(_ sender: Any) {
-        Direction = -1
-        switch currentMonth {
-        case "1月":
-            month = 11
-            year -= 1
-            
-            if LeapYearCounter > 0 {
-                LeapYearCounter -= 1
-            }
-            if LeapYearCounter == 0 {
-                LeapYearCounter = 4
-                DaysInMonths[1] = 29
-            }
-            else {
-                DaysInMonths[1] = 28
-            }
+        let prevMonth = calendar.date(byAdding: .month, value: -1, to: calendar.startOfDay(for: thisDay))!
+        GetStartDateDayPosition(thisDay: prevMonth)
+        thisDay = prevMonth
 
-            
-        default:
-            month -= 1
-        }
-        GetStartDateDayPosition()
-        currentMonth = Months[month]
-        MonthLabel.text = "\(currentMonth) \(year)"
         MonthlyCalendar.reloadData()
     }
     
-    func GetStartDateDayPosition() {
-        switch Direction{
-        case 0:
-            switch todaysDay {
-            case 1...7:
-                NumberOfEmptyBox = todaysWeekday - todaysDay
-            case 8...14:
-                NumberOfEmptyBox = todaysWeekday - todaysDay + 7
-            case 15...21:
-                NumberOfEmptyBox = todaysWeekday - todaysDay + 14
-            case 22...28:
-                NumberOfEmptyBox = todaysWeekday - todaysDay + 21
-            case 29...31:
-                NumberOfEmptyBox = todaysWeekday - todaysDay + 28
-            default:
-                break
-            }
-            if (NumberOfEmptyBox < 0) {
-                NumberOfEmptyBox += 7
-            }
-            PositionIndex = NumberOfEmptyBox
-        case 1...:
-            NextNumberOfEmptyBox = (PositionIndex + DaysInMonths[month])%7
-            PositionIndex = NextNumberOfEmptyBox
-            
-        case -1:
-            PreviousNumberOfEmptyBox = (7 - (DaysInMonths[month] - PositionIndex)%7)
-            if PreviousNumberOfEmptyBox == 7 {
-                PreviousNumberOfEmptyBox = 0
-            }
-            PositionIndex = PreviousNumberOfEmptyBox
+    func GetStartDateDayPosition(thisDay: Date = Date()) {
+        let day = calendar.component(.day, from: thisDay)
+        let weekday = calendar.component(.weekday, from: thisDay) - 1
+        month = calendar.component(.month, from: thisDay) - 1
+        year = calendar.component(.year, from: thisDay)
+
+        switch day {
+        case 1...7:
+            NumberOfEmptyBox = weekday - day
+        case 8...14:
+            NumberOfEmptyBox = weekday - day + 7
+        case 15...21:
+            NumberOfEmptyBox = weekday - day + 14
+        case 22...28:
+            NumberOfEmptyBox = weekday - day + 21
+        case 29...31:
+            NumberOfEmptyBox = weekday - day + 28
         default:
-            fatalError()
+            break
         }
+        if (NumberOfEmptyBox < 0) {
+            NumberOfEmptyBox += 7
+        }
+
+        PositionIndex = NumberOfEmptyBox
+        currentMonth = Months[month]
+        MonthLabel.text = "\(month)月 \(year)"
+
     }
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch Direction{
-        case 0:
-            return DaysInMonths[month] + NumberOfEmptyBox
-        case 1...:
-            return DaysInMonths[month] + NextNumberOfEmptyBox
-        case -1:
-            return DaysInMonths[month] + PreviousNumberOfEmptyBox
-        default:
-            fatalError()
-        }
+        var components = DateComponents()
+        components.year = year
+        // 日数を求めたい次の月。13になってもOK。ドキュメントにも、月もしくは月数とある
+        components.month = month + 1 + 1
+        // 日数を0にすることで、前の月の最後の日になる
+        components.day = 0
+        // 求めたい月の最後の日のDateオブジェクトを得る
+        let date = calendar.date(from: components)!
+        let daysInMonth = calendar.component(.day, from: date)
+        return daysInMonth + NumberOfEmptyBox
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -146,16 +95,7 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
         if cell.isHidden {
             cell.isHidden = false
         }
-        switch Direction {
-        case 0:
-            cell.DateLabel.text = "\(indexPath.row + 1 - NumberOfEmptyBox)"
-        case 1...:
-            cell.DateLabel.text = "\(indexPath.row + 1 - NextNumberOfEmptyBox)"
-        case -1:
-            cell.DateLabel.text = "\(indexPath.row + 1 - PreviousNumberOfEmptyBox)"
-        default:
-            fatalError()
-        }
+        cell.DateLabel.text = "\(indexPath.row + 1 - NumberOfEmptyBox)"
         
         if Int(cell.DateLabel.text!)! < 1 {
             cell.isHidden = true
