@@ -22,5 +22,8 @@ let DaysOfMonth = ["月", "火", "水", "木", "金", "土", "日"]
 
 var selectedDate = Date()
 
+var firstDay = Date()
+var lastDay = Date()
+
 
 

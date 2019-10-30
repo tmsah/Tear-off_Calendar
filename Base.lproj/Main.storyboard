@@ -207,6 +207,8 @@
                     <connections>
                         <outlet property="MonthLabel" destination="iKv-ga-cIU" id="HKI-dW-6gl"/>
                         <outlet property="MonthlyCalendar" destination="7Ad-PC-iQ4" id="V8a-V0-Who"/>
+                        <outlet property="NextButton" destination="lCU-TM-AVf" id="RmB-7L-QdF"/>
+                        <outlet property="PrevButton" destination="80p-3Y-PhT" id="BE0-Dg-aNo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QDp-U8-LCq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -21,10 +21,7 @@ class ViewController: UIViewController {
     var images: [UIImage] = []
     var weekDays: [String] = []
     
-    let today = Date(timeIntervalSinceNow: TimeInterval())
-    var firstDay = Date()
-
-    var lastDay = Date()
+    let today = Date()
 
     var selectedDate = Date()
     var thisDay = Date()
@@ -48,6 +45,9 @@ class ViewController: UIViewController {
     }
     
     func showDate(thisDay: Date) {
+        if (thisDay.compare(firstDay) == .orderedAscending) {
+            print("カレンダーは開始していません．")
+        }
         if (thisDay.compare(lastDay) == .orderedDescending) {
             print("カレンダーは終了しました．")
         }
@@ -124,7 +124,6 @@ class ViewController: UIViewController {
     }
 
     @IBAction func goBack(_ segue:UIStoryboardSegue) {  //　戻ってきたときに呼ばれる
-        print(selectedDate)
         showDate(thisDay: selectedDate)
         thisDay = selectedDate
     }

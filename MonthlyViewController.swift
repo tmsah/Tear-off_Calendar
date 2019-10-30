@@ -18,9 +18,9 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
     var thisDay = Date()
 
     @IBOutlet weak var MonthlyCalendar: UICollectionView!
-    
     @IBOutlet weak var MonthLabel: UILabel!
-    
+    @IBOutlet weak var NextButton: UIButton!
+    @IBOutlet weak var PrevButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,17 +33,27 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
 
     @IBAction func Next(_ sender: Any) {
         let nextMonth = calendar.date(byAdding: .month, value: 1, to: calendar.startOfDay(for: thisDay))!
+        let afterNextMonth = calendar.date(byAdding: .month, value: 2, to: calendar.startOfDay(for: thisDay))!
         GetStartDateDayPosition(thisDay: nextMonth)
+        
+        if afterNextMonth.compare(lastDay) == .orderedDescending {
+            NextButton.isHidden =  true
+        }
+        PrevButton.isHidden = false
         thisDay = nextMonth
-
         MonthlyCalendar.reloadData()
     }
     
     @IBAction func Prev(_ sender: Any) {
         let prevMonth = calendar.date(byAdding: .month, value: -1, to: calendar.startOfDay(for: thisDay))!
+        let beforePrevMonth = calendar.date(byAdding: .month, value: -2, to: calendar.startOfDay(for: thisDay))!
         GetStartDateDayPosition(thisDay: prevMonth)
+        
+        if beforePrevMonth.compare(firstDay) == .orderedAscending {
+            PrevButton.isHidden =  true
+        }
+        NextButton.isHidden = false
         thisDay = prevMonth
-
         MonthlyCalendar.reloadData()
     }
     
