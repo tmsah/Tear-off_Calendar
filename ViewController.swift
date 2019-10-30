@@ -33,7 +33,7 @@ class ViewController: UIViewController {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.locale = NSLocale(localeIdentifier: "ja_JP") as Locale
         firstDay = dateFormatter.date(from: "2018-12-31")!
-        lastDay = dateFormatter.date(from: "2021-01-01")!
+        lastDay = dateFormatter.date(from: "2020-01-01")!
 
         images = [UIImage(named: "sunday.jpg")!, UIImage(named: "monday.jpg")!, UIImage(named: "tuesday.jpg")!, UIImage(named: "wednesday.JPG")!, UIImage(named: "thursday.jpg")!, UIImage(named: "friday.jpg")!, UIImage(named: "saturday.jpg")!]
         weekDays = ["日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"]

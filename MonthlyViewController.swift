@@ -25,6 +25,7 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
     override func viewDidLoad() {
         super.viewDidLoad()
         GetStartDateDayPosition(thisDay: thisDay)
+        setButtonStatus(thisDay: thisDay)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -33,27 +34,19 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
 
     @IBAction func Next(_ sender: Any) {
         let nextMonth = calendar.date(byAdding: .month, value: 1, to: calendar.startOfDay(for: thisDay))!
-        let afterNextMonth = calendar.date(byAdding: .month, value: 2, to: calendar.startOfDay(for: thisDay))!
         GetStartDateDayPosition(thisDay: nextMonth)
-        
-        if afterNextMonth.compare(lastDay) == .orderedDescending {
-            NextButton.isHidden =  true
-        }
-        PrevButton.isHidden = false
         thisDay = nextMonth
+        setButtonStatus(thisDay: thisDay)
+
         MonthlyCalendar.reloadData()
     }
     
     @IBAction func Prev(_ sender: Any) {
         let prevMonth = calendar.date(byAdding: .month, value: -1, to: calendar.startOfDay(for: thisDay))!
-        let beforePrevMonth = calendar.date(byAdding: .month, value: -2, to: calendar.startOfDay(for: thisDay))!
         GetStartDateDayPosition(thisDay: prevMonth)
-        
-        if beforePrevMonth.compare(firstDay) == .orderedAscending {
-            PrevButton.isHidden =  true
-        }
-        NextButton.isHidden = false
         thisDay = prevMonth
+        setButtonStatus(thisDay: thisDay)
+
         MonthlyCalendar.reloadData()
     }
     
@@ -83,7 +76,14 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
 
         PositionIndex = NumberOfEmptyBox
         MonthLabel.text = "\(month)月 \(year)"
-
+        
+    }
+    
+    func setButtonStatus(thisDay: Date) {
+        let nextMonth = calendar.date(byAdding: .month, value: 1, to: calendar.startOfDay(for: thisDay))!
+        let prevMonth = calendar.date(byAdding: .month, value: -1, to: calendar.startOfDay(for: thisDay))!
+        NextButton.isHidden = nextMonth.compare(lastDay) == .orderedDescending ? true : false
+        PrevButton.isHidden = prevMonth.compare(firstDay) == .orderedAscending ? true : false
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
