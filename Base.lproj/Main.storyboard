@@ -87,6 +87,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Back"/>
                                 <connections>
+                                    <action selector="toDailyButton:" destination="ibg-Ic-Emo" eventType="touchDown" id="VzR-K5-P9T"/>
                                     <segue destination="zty-dg-bLq" kind="unwind" unwindAction="goBack:" id="cCy-IR-a6o"/>
                                 </connections>
                             </button>

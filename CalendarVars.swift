@@ -19,9 +19,7 @@ var year = calendar.component(.year, from: today)
 
 let Months = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"]
 let DaysOfMonth = ["月", "火", "水", "木", "金", "土", "日"]
-var DaysInMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
-var currentMonth = String()
 var selectedDate = Date()
 
 

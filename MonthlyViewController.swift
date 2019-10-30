@@ -25,7 +25,10 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
     override func viewDidLoad() {
         super.viewDidLoad()
         GetStartDateDayPosition(thisDay: thisDay)
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        GetStartDateDayPosition(thisDay: thisDay)
     }
 
     @IBAction func Next(_ sender: Any) {
@@ -47,7 +50,7 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
     func GetStartDateDayPosition(thisDay: Date = Date()) {
         let day = calendar.component(.day, from: thisDay)
         let weekday = calendar.component(.weekday, from: thisDay) - 1
-        month = calendar.component(.month, from: thisDay) - 1
+        month = calendar.component(.month, from: thisDay)
         year = calendar.component(.year, from: thisDay)
 
         switch day {
@@ -69,17 +72,15 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
         }
 
         PositionIndex = NumberOfEmptyBox
-        currentMonth = Months[month]
         MonthLabel.text = "\(month)月 \(year)"
 
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         var components = DateComponents()
         components.year = year
         // 日数を求めたい次の月。13になってもOK。ドキュメントにも、月もしくは月数とある
-        components.month = month + 1 + 1
+        components.month = month + 1
         // 日数を0にすることで、前の月の最後の日になる
         components.day = 0
         // 求めたい月の最後の日のDateオブジェクトを得る
@@ -92,6 +93,7 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MonthlyCalendar", for: indexPath) as! DateCollectionViewCell
         cell.backgroundColor = UIColor.yellow
         cell.DateLabel.textColor = UIColor.black
+        cell.isUserInteractionEnabled = true
         if cell.isHidden {
             cell.isHidden = false
         }
@@ -109,10 +111,10 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
         default:
             break
         }
-        if currentMonth == Months[calendar.component(.month, from: today) - 1] && year == calendar.component(.year, from: today) && indexPath.row + 1 - PositionIndex == todaysDay {
+        if month == calendar.component(.month, from: today) && year == calendar.component(.year, from: today) && indexPath.row + 1 - PositionIndex == todaysDay {
             cell.backgroundColor = UIColor.red
         }
-        if month > calendar.component(.month, from: today) - 1 || year > calendar.component(.year, from: today) || (month == calendar.component(.month, from: today) - 1 && indexPath.row + 1 - PositionIndex > todaysDay)  {
+        if month > calendar.component(.month, from: today) || year > calendar.component(.year, from: today) || (month == calendar.component(.month, from: today) && indexPath.row + 1 - PositionIndex > todaysDay)  {
             cell.isUserInteractionEnabled = false
         }
         return cell
@@ -121,7 +123,7 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
         let cell = collectionView.cellForItem(at: indexPath as IndexPath)!
         cell.backgroundColor = UIColor.blue // タップしているときの色にする
         
-        let selectedDay = String(format: "%04d", year) + "-" + String(format: "%02d", month + 1) + "-" + String(format: "%02d", indexPath.item + 1 - PositionIndex)
+        let selectedDay = String(format: "%04d", year) + "-" + String(format: "%02d", month) + "-" + String(format: "%02d", indexPath.item + 1 - PositionIndex)
         let dateFormater = DateFormatter()
         dateFormater.dateFormat = "yyyy-MM-dd"
         selectedDate = dateFormater.date(from: selectedDay)!
@@ -140,5 +142,9 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as! ViewController
         vc.selectedDate = selectedDate
+    }
+    
+    @IBAction func toDailyButton(_ sender: UIButton) {
+        selectedDate = thisDay
     }
 }
