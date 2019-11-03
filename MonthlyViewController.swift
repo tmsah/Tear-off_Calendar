@@ -106,10 +106,15 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
         if cell.isHidden {
             cell.isHidden = false
         }
-        cell.DateLabel.text = "\(indexPath.row + 1 - NumberOfEmptyBox)"
-        
+        let day = indexPath.row + 1 - NumberOfEmptyBox
+        cell.DateLabel.text = String(day)
+
         if Int(cell.DateLabel.text!)! < 1 {
             cell.isHidden = true
+        }
+        else {
+            let wordsInfo = getWordsInfo(day: String(format: "%02d", month) + "-" + String(format: "%02d", day))
+            cell.backgroundColor = UIColor.rgba(color: wordsInfo.color)
         }
         
         switch indexPath.row {
@@ -156,4 +161,16 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
     @IBAction func toDailyButton(_ sender: UIButton) {
         selectedDate = thisDay
     }
+    
+    func getWordsInfo(day: String) -> DayInfo {
+        print(day)
+        var thisDayInfo: DayInfo!
+        DatesJson.datesInfo.forEach({(eachDay) in
+            if (eachDay.day == day) {
+                thisDayInfo = eachDay
+            }
+        })
+        return thisDayInfo
+    }
+
 }

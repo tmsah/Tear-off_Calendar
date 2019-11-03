@@ -34,6 +34,8 @@ struct DatesInfo : Codable {
     let datesInfo: [DayInfo]
 }
 
+let DatesFile = Bundle.main.url(forResource: "DatesInfo", withExtension: "json")
+let DatesJson = try! JSONDecoder().decode(DatesInfo.self, from: Data(contentsOf: DatesFile!)) as DatesInfo
 
 let Colors: Dictionary<String,  Array<Int> > = [
     "red":     [1, 1, 1, 1],

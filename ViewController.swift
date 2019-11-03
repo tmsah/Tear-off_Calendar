@@ -39,7 +39,6 @@ class ViewController: UIViewController {
     var selectedDate = Date()
     var thisDay = Date()
     
-    var DatesJson: DatesInfo!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -48,9 +47,6 @@ class ViewController: UIViewController {
         dateFormatter.locale = NSLocale(localeIdentifier: "ja_JP") as Locale
         firstDay = dateFormatter.date(from: "2018-12-31")!
         lastDay = dateFormatter.date(from: "2020-01-01")!
-
-        let DatesFile = Bundle.main.url(forResource: "DatesInfo", withExtension: "json")
-        DatesJson = try! JSONDecoder().decode(DatesInfo.self, from: Data(contentsOf: DatesFile!)) as DatesInfo
 
         showDate(thisDay: today)
 //        thisDay = today
@@ -110,7 +106,7 @@ class ViewController: UIViewController {
     }
     
     func getWordsInfo(day: String) -> DayInfo {
-    var thisDayInfo: DayInfo!
+        var thisDayInfo: DayInfo!
         DatesJson.datesInfo.forEach({(eachDay) in
             if (eachDay.day == day) {
                 thisDayInfo = eachDay
