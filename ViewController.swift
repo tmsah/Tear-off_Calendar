@@ -21,8 +21,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var wordsLabel: UILabel!
     @IBOutlet weak var tweetDayLabel: UILabel!
     
-
-    let images = [UIImage(named: "sunday.jpg")!, UIImage(named: "monday.jpg")!, UIImage(named: "tuesday.jpg")!, UIImage(named: "wednesday.JPG")!, UIImage(named: "thursday.jpg")!, UIImage(named: "friday.jpg")!, UIImage(named: "saturday.jpg")!]
     let weekDays = ["日", "月", "火", "水", "木", "金", "土"]
 
     let today = Date()
@@ -79,14 +77,15 @@ class ViewController: UIViewController {
         personLabel.text = wordsInfo.person
         wordsLabel.text = wordsInfo.words
         tweetDayLabel.text = wordsInfo.tweetDay
+        imageView.image = UIImage(named: wordsInfo.id)!
+        
         
         let calendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian)!
         let WeekComponent = calendar.components(.weekday, from: thisDay)
         let weekDay = WeekComponent.weekday
-        imageView.image = images[weekDay! - 1]
         weekdayLabel.text = weekDays[weekDay! - 1]
         
-        switch(weekDay){
+/*        switch(weekDay){
         case 1:
             dayLabel.textColor = UIColor.red
             weekdayLabel.textColor = UIColor.red
@@ -96,7 +95,7 @@ class ViewController: UIViewController {
         default:
             dayLabel.textColor = UIColor.black
             weekdayLabel.textColor = UIColor.black
-        }
+        }*/
     }
     
     func getWordsInfo(day: String) -> DayInfo {
