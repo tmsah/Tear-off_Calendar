@@ -21,14 +21,16 @@ class ViewController: UIViewController {
     @IBOutlet weak var wordsLabel: UILabel!
     @IBOutlet weak var tweetDayLabel: UILabel!
     
-    var images: [UIImage] = []
-    var weekDays: [String] = []
-    
+
+    let images = [UIImage(named: "sunday.jpg")!, UIImage(named: "monday.jpg")!, UIImage(named: "tuesday.jpg")!, UIImage(named: "wednesday.JPG")!, UIImage(named: "thursday.jpg")!, UIImage(named: "friday.jpg")!, UIImage(named: "saturday.jpg")!]
+    let weekDays = ["日", "月", "火", "水", "木", "金", "土"]
+
     let today = Date()
 
     var selectedDate = Date()
     var thisDay = Date()
     
+    var DatesJson: DatesInfo!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -38,18 +40,15 @@ class ViewController: UIViewController {
         firstDay = dateFormatter.date(from: "2018-12-31")!
         lastDay = dateFormatter.date(from: "2020-01-01")!
 
-        images = [UIImage(named: "sunday.jpg")!, UIImage(named: "monday.jpg")!, UIImage(named: "tuesday.jpg")!, UIImage(named: "wednesday.JPG")!, UIImage(named: "thursday.jpg")!, UIImage(named: "friday.jpg")!, UIImage(named: "saturday.jpg")!]
-        weekDays = ["日", "月", "火", "水", "木", "金", "土"]
+        let DatesFile = Bundle.main.url(forResource: "DatesInfo", withExtension: "json")
+        DatesJson = try! JSONDecoder().decode(DatesInfo.self, from: Data(contentsOf: DatesFile!)) as DatesInfo
+
         showDate(thisDay: today)
 //        thisDay = today
         baseView.backgroundColor = UIColor.lightGray
 
         gestureInitialize()
 //        toMonthlyButton.isHidden = true
-        let file = Bundle.main.url(forResource: "DatesInfo", withExtension: "json")
-        let data = try? Data(contentsOf: file!)
-        let json = try! JSONDecoder().decode(DatesInfo.self, from: data!) as DatesInfo
-        print(json.datesInfo[1].day)
     }
     func showDate(thisDay: Date) {
         if (thisDay.compare(firstDay) == .orderedAscending) {
@@ -74,6 +73,12 @@ class ViewController: UIViewController {
         dateFormatter.dateFormat = "d"
         let day = dateFormatter.string(from: thisDay)
         dayLabel.text = day
+
+        dateFormatter.dateFormat = "MM-dd"
+        let wordsInfo = getWordsInfo(day: dateFormatter.string(from: thisDay))
+        personLabel.text = wordsInfo.person
+        wordsLabel.text = wordsInfo.words
+        tweetDayLabel.text = wordsInfo.tweetDay
         
         let calendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian)!
         let WeekComponent = calendar.components(.weekday, from: thisDay)
@@ -92,6 +97,16 @@ class ViewController: UIViewController {
             dayLabel.textColor = UIColor.black
             weekdayLabel.textColor = UIColor.black
         }
+    }
+    
+    func getWordsInfo(day: String) -> DayInfo {
+    var thisDayInfo: DayInfo!
+        DatesJson.datesInfo.forEach({(eachDay) in
+            if (eachDay.day == day) {
+                thisDayInfo = eachDay
+            }
+        })
+        return thisDayInfo
     }
     
     func gestureInitialize() {

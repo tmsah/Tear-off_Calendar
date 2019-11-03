@@ -3,3 +3,4 @@ Assets.xcassets
 Info.plist
 SceneDelegate.swift
 Base.lproj/LaunchScreen.storyboard
+*.json
