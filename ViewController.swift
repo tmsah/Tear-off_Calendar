@@ -7,6 +7,17 @@
 
 import UIKit
 
+extension UIColor {
+    class func rgba(color: String) -> UIColor{
+        if let c = Colors[color] {
+            return UIColor(red: CGFloat(c[0]) / 255.0, green: CGFloat(c[1]) / 255.0, blue: CGFloat(c[2]) / 255.0, alpha: CGFloat(c[3]))
+        }
+        else {
+            return UIColor.clear
+        }
+    }
+}
+
 class ViewController: UIViewController {
 
     
@@ -43,7 +54,6 @@ class ViewController: UIViewController {
 
         showDate(thisDay: today)
 //        thisDay = today
-        baseView.backgroundColor = UIColor.lightGray
 
         gestureInitialize()
 //        toMonthlyButton.isHidden = true
@@ -78,6 +88,7 @@ class ViewController: UIViewController {
         wordsLabel.text = wordsInfo.words
         tweetDayLabel.text = wordsInfo.tweetDay
         imageView.image = UIImage(named: wordsInfo.id)!
+        baseView.backgroundColor = UIColor.rgba(color: wordsInfo.color)
         
         
         let calendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian)!
