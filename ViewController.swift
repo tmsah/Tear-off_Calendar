@@ -2,7 +2,6 @@
 //  ViewController.swift
 //  Carender
 //
-//  Created by akazawa on 2019/10/13.
 //  Copyright © 2019 tmsah. All rights reserved.
 //
 
@@ -17,6 +16,10 @@ class ViewController: UIViewController {
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var weekdayLabel: UILabel!
     @IBOutlet var toMonthlyButton: UIButton!
+    @IBOutlet var baseView: UIView!
+    @IBOutlet weak var personLabel: UILabel!
+    @IBOutlet weak var wordsLabel: UILabel!
+    @IBOutlet weak var tweetDayLabel: UILabel!
     
     var images: [UIImage] = []
     var weekDays: [String] = []
@@ -36,14 +39,18 @@ class ViewController: UIViewController {
         lastDay = dateFormatter.date(from: "2020-01-01")!
 
         images = [UIImage(named: "sunday.jpg")!, UIImage(named: "monday.jpg")!, UIImage(named: "tuesday.jpg")!, UIImage(named: "wednesday.JPG")!, UIImage(named: "thursday.jpg")!, UIImage(named: "friday.jpg")!, UIImage(named: "saturday.jpg")!]
-        weekDays = ["日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"]
+        weekDays = ["日", "月", "火", "水", "木", "金", "土"]
         showDate(thisDay: today)
 //        thisDay = today
+        baseView.backgroundColor = UIColor.lightGray
 
         gestureInitialize()
 //        toMonthlyButton.isHidden = true
+        let file = Bundle.main.url(forResource: "DatesInfo", withExtension: "json")
+        let data = try? Data(contentsOf: file!)
+        let json = try! JSONDecoder().decode(DatesInfo.self, from: data!) as DatesInfo
+        print(json.datesInfo[1].day)
     }
-    
     func showDate(thisDay: Date) {
         if (thisDay.compare(firstDay) == .orderedAscending) {
             print("カレンダーは開始していません．")

@@ -2,7 +2,6 @@
 //  MonthlyViewController.swift
 //  Carender
 //
-//  Created by akazawa on 2019/10/14.
 //  Copyright © 2019 tmsah. All rights reserved.
 //
 
