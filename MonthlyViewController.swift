@@ -125,11 +125,12 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
         default:
             break
         }
-        if month == calendar.component(.month, from: today) && year == calendar.component(.year, from: today) && indexPath.row + 1 - PositionIndex == todaysDay {
+/*        if month == calendar.component(.month, from: today) && year == calendar.component(.year, from: today) && indexPath.row + 1 - PositionIndex == todaysDay {
             cell.backgroundColor = UIColor.red
-        }
+        }*/
         if month > calendar.component(.month, from: today) || year > calendar.component(.year, from: today) || (month == calendar.component(.month, from: today) && indexPath.row + 1 - PositionIndex > todaysDay)  {
             cell.isUserInteractionEnabled = false
+            cell.backgroundColor = UIColor.white
         }
         return cell
     }
@@ -163,7 +164,6 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
     }
     
     func getWordsInfo(day: String) -> DayInfo {
-        print(day)
         var thisDayInfo: DayInfo!
         DatesJson.datesInfo.forEach({(eachDay) in
             if (eachDay.day == day) {

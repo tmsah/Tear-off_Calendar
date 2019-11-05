@@ -38,13 +38,13 @@ let DatesFile = Bundle.main.url(forResource: "DatesInfo", withExtension: "json")
 let DatesJson = try! JSONDecoder().decode(DatesInfo.self, from: Data(contentsOf: DatesFile!)) as DatesInfo
 
 let Colors: Dictionary<String,  Array<Int> > = [
-    "red":     [1, 1, 1, 1],
-    "blue":    [1, 1, 1, 1],
-    "green":   [177, 194, 57, 1],
-    "yellow":  [1, 1, 1, 1],
-    "pink":    [1, 1, 1, 1],
-    "orange":  [1, 1, 1, 1],
-    "gray":    [1, 1, 1, 1],
-    "skyblue": [1, 1, 1, 1],
-    "purple":  [1, 1, 1, 1]
+    "red":     [230, 0, 0, 1],
+    "blue":    [0, 0, 195, 1],
+    "green":   [0, 210, 0, 1],
+    "yellow":  [255, 200, 0, 1],
+    "pink":    [255, 105, 140, 1],
+    "orange":  [255, 125, 0, 1],
+    "gray":    [130, 130, 130, 1],
+    "skyblue": [0, 190, 190, 1],
+    "purple":  [190, 0, 190, 1]
 ]
