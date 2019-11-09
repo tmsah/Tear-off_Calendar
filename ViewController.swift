@@ -6,84 +6,6 @@
 //
 
 import UIKit
-extension UIView {
-    /// 枠線の色
-    @IBInspectable var borderColor: UIColor? {
-        get {
-            return layer.borderColor.map { UIColor(cgColor: $0) }
-        }
-        set {
-            layer.borderColor = newValue?.cgColor
-        }
-    }
-    /// 枠線のWidth
-    @IBInspectable var borderWidth: CGFloat {
-        get {
-            return layer.borderWidth
-        }
-        set {
-            layer.borderWidth = newValue
-        }
-    }
-    /// 角丸の大きさ
-    @IBInspectable var cornerRadius: CGFloat {
-        get {
-            return layer.cornerRadius
-        }
-        set {
-            layer.cornerRadius = newValue
-            layer.masksToBounds = newValue > 0
-        }
-    }
-  /// 影の色
-  @IBInspectable var shadowColor: UIColor? {
-    get {
-      return layer.shadowColor.map { UIColor(cgColor: $0) }
-    }
-    set {
-      layer.shadowColor = newValue?.cgColor
-      layer.masksToBounds = false
-    }
-  }
-  /// 影の透明度
-  @IBInspectable var shadowAlpha: Float {
-    get {
-      return layer.shadowOpacity
-    }
-    set {
-      layer.shadowOpacity = newValue
-    }
-  }
-  /// 影のオフセット
-  @IBInspectable var shadowOffset: CGSize {
-    get {
-     return layer.shadowOffset
-    }
-    set {
-      layer.shadowOffset = newValue
-    }
-  }
-  /// 影のぼかし量
-  @IBInspectable var shadowRadius: CGFloat {
-    get {
-     return layer.shadowRadius
-    }
-    set {
-      layer.shadowRadius = newValue
-    }
-  }
-}
-
-extension UIColor {
-    class func rgba(color: String) -> UIColor{
-        if let c = Colors[color] {
-            return UIColor(red: CGFloat(c[0]) / 255.0, green: CGFloat(c[1]) / 255.0, blue: CGFloat(c[2]) / 255.0, alpha: CGFloat(c[3]))
-        }
-        else {
-            return UIColor.clear
-        }
-    }
-}
 
 class ViewController: UIViewController {
 
@@ -98,6 +20,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var personLabel: UILabel!
     @IBOutlet weak var wordsLabel: UILabel!
     @IBOutlet weak var tweetDayLabel: UILabel!
+    @IBOutlet weak var toMonthlyButtonView: UIView!
     
     let weekDays = ["日", "月", "火", "水", "木", "金", "土"]
 
@@ -105,6 +28,7 @@ class ViewController: UIViewController {
 
     var selectedDate = Date()
     var thisDay = Date()
+    var notCover = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,11 +39,25 @@ class ViewController: UIViewController {
         firstDay = dateFormatter.date(from: "2018-12-31")!
         lastDay = dateFormatter.date(from: "2020-01-01")!
 
-        showDate(thisDay: today)
+//        showDate(thisDay: today)
 //        thisDay = today
+        coverInitialize()
 
         gestureInitialize()
-//        toMonthlyButton.isHidden = true
+    }
+    func coverInitialize() {
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: thisDay))!
+        yearLabel.text = ""
+        monthLabel.text = ""
+        dayLabel.text = ""
+        weekdayLabel.text = ""
+        personLabel.text = ""
+        wordsLabel.text = ""
+        tweetDayLabel.text = ""
+        imageView.image = nil
+        toMonthlyButton.isHidden = true
+        toMonthlyButtonView.isHidden = true
+        thisDay = yesterday
     }
     func showDate(thisDay: Date) {
         if (thisDay.compare(firstDay) == .orderedAscending) {
@@ -159,17 +97,7 @@ class ViewController: UIViewController {
         let weekDay = WeekComponent.weekday
         weekdayLabel.text = weekDays[weekDay! - 1]
         
-/*        switch(weekDay){
-        case 1:
-            dayLabel.textColor = UIColor.red
-            weekdayLabel.textColor = UIColor.red
-        case 7:
-            dayLabel.textColor = UIColor.blue
-            weekdayLabel.textColor = UIColor.blue
-        default:
-            dayLabel.textColor = UIColor.black
-            weekdayLabel.textColor = UIColor.black
-        }*/
+        toMonthlyButton.setTitleColor(UIColor.rgba(color: wordsInfo.color), for: .normal)
     }
     
     func getWordsInfo(day: String) -> DayInfo {
@@ -194,7 +122,7 @@ class ViewController: UIViewController {
     
     @objc func prevDay() {  //todo: 表紙の時はめくれない設定
         let yesterday = calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: thisDay))!
-        if (yesterday.compare(firstDay) == .orderedDescending) {
+        if (yesterday.compare(firstDay) == .orderedDescending && notCover) {
             UIView.beginAnimations("TransitionAnimation", context: nil)
             UIView.setAnimationTransition(UIView.AnimationTransition.curlDown, for: self.view, cache: true)
             UIView.setAnimationDuration(1)
@@ -212,7 +140,9 @@ class ViewController: UIViewController {
             UIView.setAnimationDuration(1)
             showDate(thisDay: tomorrow)
             thisDay = tomorrow
-//            toMonthlyButton.isHidden = false
+            toMonthlyButton.isHidden = false
+            toMonthlyButtonView.isHidden = false
+            notCover = true
             UIView.commitAnimations()
         }
 

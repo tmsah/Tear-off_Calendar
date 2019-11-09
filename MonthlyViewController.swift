@@ -20,6 +20,8 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
     @IBOutlet weak var MonthLabel: UILabel!
     @IBOutlet weak var NextButton: UIButton!
     @IBOutlet weak var PrevButton: UIButton!
+    @IBOutlet weak var PrevButtonView: UIView!
+    @IBOutlet weak var NextButtonView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,6 +85,8 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
         let prevMonth = calendar.date(byAdding: .month, value: -1, to: calendar.startOfDay(for: thisDay))!
         NextButton.isHidden = nextMonth.compare(lastDay) == .orderedDescending ? true : false
         PrevButton.isHidden = prevMonth.compare(firstDay) == .orderedAscending ? true : false
+        NextButtonView.isHidden = nextMonth.compare(lastDay) == .orderedDescending ? true : false
+        PrevButtonView.isHidden = prevMonth.compare(firstDay) == .orderedAscending ? true : false
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -116,35 +120,20 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
             cell.DateStamp.image = UIImage(named: wordsInfo.color + "_stamp")!
         }
         
-/*        if month == calendar.component(.month, from: today) && year == calendar.component(.year, from: today) && indexPath.row + 1 - PositionIndex == todaysDay {
-            cell.borderColor = UIColor.red
-            cell.borderWidth = 1
-        }*/
         if month > calendar.component(.month, from: today) || year > calendar.component(.year, from: today) || (month == calendar.component(.month, from: today) && indexPath.row + 1 - PositionIndex > todaysDay)  {
             cell.isUserInteractionEnabled = false
             cell.DateStamp.image = nil
         }
         return cell
     }
+    
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath as IndexPath)!
-        cell.backgroundColor = UIColor.blue // タップしているときの色にする
-        
         let selectedDay = String(format: "%04d", year) + "-" + String(format: "%02d", month) + "-" + String(format: "%02d", indexPath.item + 1 - PositionIndex)
         let dateFormater = DateFormatter()
         dateFormater.dateFormat = "yyyy-MM-dd"
         selectedDate = dateFormater.date(from: selectedDay)!
 
     }
-    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath as IndexPath)!
-        if (indexPath.item == todaysDay) {
-            cell.backgroundColor = UIColor.red
-        }
-        else {
-            cell.backgroundColor = UIColor.yellow  // 元の色にする
-        }
-    }    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as! ViewController

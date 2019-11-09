@@ -40,7 +40,7 @@
                                 </userDefinedRuntimeAttributes>
                             </label>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w0k-rU-whg">
-                                <rect key="frame" x="140" y="630" width="103" height="32"/>
+                                <rect key="frame" x="137" y="630" width="108" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
@@ -118,6 +118,7 @@
                         <outlet property="monthLabel" destination="1B2-wr-sjG" id="DDa-H0-TiW"/>
                         <outlet property="personLabel" destination="amO-0S-GK9" id="71c-SN-tJV"/>
                         <outlet property="toMonthlyButton" destination="FL9-fz-bPj" id="ZdY-Ce-fWp"/>
+                        <outlet property="toMonthlyButtonView" destination="w0k-rU-whg" id="nYl-po-BDH"/>
                         <outlet property="tweetDayLabel" destination="H0y-GS-qrB" id="rlZ-1N-9hi"/>
                         <outlet property="weekdayLabel" destination="CPL-tq-qF8" id="FLe-6m-ine"/>
                         <outlet property="wordsLabel" destination="cG2-Zi-4gP" id="vLS-R2-13M"/>
@@ -314,7 +315,9 @@
                         <outlet property="MonthLabel" destination="iKv-ga-cIU" id="HKI-dW-6gl"/>
                         <outlet property="MonthlyCalendar" destination="7Ad-PC-iQ4" id="V8a-V0-Who"/>
                         <outlet property="NextButton" destination="lCU-TM-AVf" id="RmB-7L-QdF"/>
+                        <outlet property="NextButtonView" destination="UnI-Cd-uY4" id="5Ra-oI-HzL"/>
                         <outlet property="PrevButton" destination="80p-3Y-PhT" id="BE0-Dg-aNo"/>
+                        <outlet property="PrevButtonView" destination="Eoq-OB-9VR" id="mhC-VH-wnZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QDp-U8-LCq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

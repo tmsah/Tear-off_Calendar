@@ -4,3 +4,4 @@ Info.plist
 SceneDelegate.swift
 Base.lproj/LaunchScreen.storyboard
 *.json
+images/
