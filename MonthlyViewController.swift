@@ -100,7 +100,6 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MonthlyCalendar", for: indexPath) as! DateCollectionViewCell
-        cell.backgroundColor = UIColor.yellow
         cell.DateLabel.textColor = UIColor.black
         cell.isUserInteractionEnabled = true
         if cell.isHidden {
@@ -114,23 +113,16 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
         }
         else {
             let wordsInfo = getWordsInfo(day: String(format: "%02d", month) + "-" + String(format: "%02d", day))
-            cell.backgroundColor = UIColor.rgba(color: wordsInfo.color)
+            cell.DateStamp.image = UIImage(named: wordsInfo.color + "_stamp")!
         }
         
-        switch indexPath.row {
-        case 5, 6, 12, 13, 19, 20, 26, 27, 33, 34:
-            if Int(cell.DateLabel.text!)! > 0 {
-                cell.DateLabel.textColor = UIColor.lightGray
-            }
-        default:
-            break
-        }
 /*        if month == calendar.component(.month, from: today) && year == calendar.component(.year, from: today) && indexPath.row + 1 - PositionIndex == todaysDay {
-            cell.backgroundColor = UIColor.red
+            cell.borderColor = UIColor.red
+            cell.borderWidth = 1
         }*/
         if month > calendar.component(.month, from: today) || year > calendar.component(.year, from: today) || (month == calendar.component(.month, from: today) && indexPath.row + 1 - PositionIndex > todaysDay)  {
             cell.isUserInteractionEnabled = false
-            cell.backgroundColor = UIColor.white
+            cell.DateStamp.image = nil
         }
         return cell
     }
