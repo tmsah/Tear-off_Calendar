@@ -6,15 +6,12 @@
 //
 
 import UIKit
-var NumberOfEmptyBox = Int() // empty boxs number at the start of the current month
-var NextNumberOfEmptyBox = Int() // the same with the next month
-var PreviousNumberOfEmptyBox = Int() // the same with the previous month
-var PositionIndex = 0  // store vars of empty boxes
-var LeapYearCounter = 3
 
 class MonthlyViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource{
 
     var thisDay = Date()
+    var backDay = Date()
+    var NumberOfEmptyBox = Int() // empty boxs number at the start of the current month
 
     @IBOutlet weak var MonthlyCalendar: UICollectionView!
     @IBOutlet weak var MonthLabel: UILabel!
@@ -31,6 +28,7 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     override func viewDidAppear(_ animated: Bool) {
         GetStartDateDayPosition(thisDay: thisDay)
+        backDay = thisDay
     }
 
     @IBAction func Next(_ sender: Any) {
@@ -75,7 +73,6 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
             NumberOfEmptyBox += 7
         }
 
-        PositionIndex = NumberOfEmptyBox
         MonthLabel.text = "\(month)月 \(year)"
         
     }
@@ -120,7 +117,7 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
             cell.DateStamp.image = UIImage(named: wordsInfo.color + "_stamp")!
         }
         
-        if month > calendar.component(.month, from: today) || year > calendar.component(.year, from: today) || (month == calendar.component(.month, from: today) && indexPath.row + 1 - PositionIndex > todaysDay)  {
+        if month > calendar.component(.month, from: today) || year > calendar.component(.year, from: today) || (month == calendar.component(.month, from: today) && indexPath.row + 1 - NumberOfEmptyBox > todaysDay)  {
             cell.isUserInteractionEnabled = false
             cell.DateStamp.image = nil
         }
@@ -128,7 +125,7 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        let selectedDay = String(format: "%04d", year) + "-" + String(format: "%02d", month) + "-" + String(format: "%02d", indexPath.item + 1 - PositionIndex)
+        let selectedDay = String(format: "%04d", year) + "-" + String(format: "%02d", month) + "-" + String(format: "%02d", indexPath.item + 1 - NumberOfEmptyBox)
         let dateFormater = DateFormatter()
         dateFormater.dateFormat = "yyyy-MM-dd"
         selectedDate = dateFormater.date(from: selectedDay)!
@@ -141,7 +138,7 @@ class MonthlyViewController: UIViewController, UICollectionViewDelegate, UIColle
     }
     
     @IBAction func toDailyButton(_ sender: UIButton) {
-        selectedDate = thisDay
+        selectedDate = backDay
     }
     
     func getWordsInfo(day: String) -> DayInfo {
