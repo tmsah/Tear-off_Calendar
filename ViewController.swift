@@ -21,6 +21,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var wordsLabel: UILabel!
     @IBOutlet weak var tweetDayLabel: UILabel!
     @IBOutlet weak var toMonthlyButtonView: UIView!
+    @IBOutlet weak var coverImageView: UIImageView!
     
 
     var selectedDate = Date()
@@ -40,28 +41,30 @@ class ViewController: UIViewController {
         gestureInitialize()
     }
     func coverInitialize() {
-        let yesterday = calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: thisDay))!
         yearLabel.text = ""
         monthLabel.text = ""
         dayLabel.text = ""
         weekdayLabel.text = ""
         personLabel.text = ""
-        wordsLabel.text = ""
         tweetDayLabel.text = ""
+        if (thisDay.compare(lastDay) == .orderedDescending) {
+            thisDay = calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: lastDay))!
+            wordsLabel.text = ("日めくりカレンダーは終了しました．")
+            imageView.image = nil
+            baseView.backgroundColor = UIColor.rgba(color: "blue")
+            toMonthlyButton.setTitleColor(UIColor.rgba(color: "blue"), for: .normal)
+            return
+        }
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: thisDay))!
+        wordsLabel.text = ""
         imageView.image = nil
         toMonthlyButton.isHidden = true
         toMonthlyButtonView.isHidden = true
         thisDay = yesterday
+        coverImageView.image = UIImage(named: "cover")!
     }
+    
     func showDate(thisDay: Date) {
-        if (thisDay.compare(firstDay) == .orderedAscending) {
-            print("カレンダーは開始していません．")
-        }
-        if (thisDay.compare(lastDay) == .orderedDescending) {
-            print("カレンダーは終了しました．")
-        }
-        
-        
         let dateFormatter = DateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "ja_JP") as Locale
                 
@@ -114,9 +117,9 @@ class ViewController: UIViewController {
         self.view.addGestureRecognizer(downSwipe)
     }
     
-    @objc func prevDay() {  //todo: 表紙の時はめくれない設定
+    @objc func prevDay() {
         let yesterday = calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: thisDay))!
-        if (yesterday.compare(firstDay) == .orderedDescending && notCover) {
+        if (yesterday.compare(firstDay) == .orderedDescending && yesterday.compare(lastDay) == .orderedAscending && notCover) {
             UIView.beginAnimations("TransitionAnimation", context: nil)
             UIView.setAnimationTransition(UIView.AnimationTransition.curlDown, for: self.view, cache: true)
             UIView.setAnimationDuration(1)
@@ -137,6 +140,7 @@ class ViewController: UIViewController {
             toMonthlyButton.isHidden = false
             toMonthlyButtonView.isHidden = false
             notCover = true
+            coverImageView.image = nil
             UIView.commitAnimations()
         }
 
@@ -144,6 +148,7 @@ class ViewController: UIViewController {
 
     @IBAction func goBack(_ segue:UIStoryboardSegue) {  //　戻ってきたときに呼ばれる
         showDate(thisDay: selectedDate)
+        notCover = true
         thisDay = selectedDate
     }
 
