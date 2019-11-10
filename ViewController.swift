@@ -22,12 +22,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var tweetDayLabel: UILabel!
     @IBOutlet weak var toMonthlyButtonView: UIView!
     
-    let weekDays = ["日", "月", "火", "水", "木", "金", "土"]
-
-    let today = Date()
 
     var selectedDate = Date()
-    var thisDay = Date()
     var notCover = false
     
     override func viewDidLoad() {
@@ -39,8 +35,6 @@ class ViewController: UIViewController {
         firstDay = dateFormatter.date(from: "2018-12-31")!
         lastDay = dateFormatter.date(from: "2020-01-01")!
 
-//        showDate(thisDay: today)
-//        thisDay = today
         coverInitialize()
 
         gestureInitialize()

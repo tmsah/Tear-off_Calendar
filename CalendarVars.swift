@@ -12,10 +12,12 @@ let calendar = Calendar.current
 
 let todaysDay = calendar.component(.day, from: today)
 let todaysWeekday = calendar.component(.weekday, from: today) - 1
+let weekDays = ["日", "月", "火", "水", "木", "金", "土"]
 
 var month = calendar.component(.month, from: today) - 1
 var year = calendar.component(.year, from: today)
 
+var thisDay = Date()
 var selectedDate = Date()
 
 var firstDay = Date()
