@@ -25,7 +25,7 @@ class ViewController: UIViewController {
     
 
     var selectedDate = Date()
-    var notCover = false
+    var isCover = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,21 +36,24 @@ class ViewController: UIViewController {
         firstDay = dateFormatter.date(from: "2018-12-31")!
         lastDay = dateFormatter.date(from: "2020-01-01")!
 
-        coverInitialize()
+        dateFormatter.dateFormat = "MM"
+        let month = dateFormatter.string(from: thisDay)
+        coverInitialize(month: month)
 
         gestureInitialize()
     }
-    func coverInitialize() {
+    
+    func coverInitialize(month: String) {
         yearLabel.text = ""
         monthLabel.text = ""
         dayLabel.text = ""
         weekdayLabel.text = ""
-        personLabel.text = ""
+        personLabel.text = "こゆみ物語"
         tweetDayLabel.text = ""
         if (thisDay.compare(lastDay) == .orderedDescending) {
             thisDay = calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: lastDay))!
             wordsLabel.text = ("日めくりカレンダーは終了しました．")
-            imageView.image = nil
+            imageView.image = UIImage(named: "end")!
             baseView.backgroundColor = UIColor.rgba(color: "blue")
             toMonthlyButton.setTitleColor(UIColor.rgba(color: "blue"), for: .normal)
             return
@@ -61,7 +64,7 @@ class ViewController: UIViewController {
         toMonthlyButton.isHidden = true
         toMonthlyButtonView.isHidden = true
         thisDay = yesterday
-        coverImageView.image = UIImage(named: "cover")!
+        coverImageView.image = UIImage(named: month + "-cover")!
     }
     
     func showDate(thisDay: Date) {
@@ -119,7 +122,7 @@ class ViewController: UIViewController {
     
     @objc func prevDay() {
         let yesterday = calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: thisDay))!
-        if (yesterday.compare(firstDay) == .orderedDescending && yesterday.compare(lastDay) == .orderedAscending && notCover) {
+        if (yesterday.compare(firstDay) == .orderedDescending && yesterday.compare(lastDay) == .orderedAscending && !isCover) {
             UIView.beginAnimations("TransitionAnimation", context: nil)
             UIView.setAnimationTransition(UIView.AnimationTransition.curlDown, for: self.view, cache: true)
             UIView.setAnimationDuration(1)
@@ -139,7 +142,7 @@ class ViewController: UIViewController {
             thisDay = tomorrow
             toMonthlyButton.isHidden = false
             toMonthlyButtonView.isHidden = false
-            notCover = true
+            isCover = false
             coverImageView.image = nil
             UIView.commitAnimations()
         }
@@ -148,7 +151,7 @@ class ViewController: UIViewController {
 
     @IBAction func goBack(_ segue:UIStoryboardSegue) {  //　戻ってきたときに呼ばれる
         showDate(thisDay: selectedDate)
-        notCover = true
+        isCover = false
         thisDay = selectedDate
     }
 
