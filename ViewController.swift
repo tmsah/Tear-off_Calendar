@@ -64,7 +64,7 @@ class ViewController: UIViewController {
         toMonthlyButton.isHidden = true
         toMonthlyButtonView.isHidden = true
         thisDay = yesterday
-        coverImageView.image = UIImage(named: month + "-cover")!
+        coverImageView.image = UIImage(named: month + "_cover")!
     }
     
     func showDate(thisDay: Date) {
