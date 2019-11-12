@@ -76,7 +76,7 @@ python 366.py
 1. Xcodeを一旦閉じ，Finderやコマンドラインなどから`Calendar`プロジェクト内の`ViewController.swift`と`Base.Iproj/Main.storyboard`を削除する．
 1. 別の（捨て）ディレクトリにこのリポジトリを一旦クローンする．
 ```
-git@github.com:tmsah/Tear-off_Calendar.git
+git clone git@github.com:tmsah/Tear-off_Calendar.git
 ```
 1. 全てのファイルをプロジェクト内の作業ディレクトリ（さっき`ViewController.swift`があった場所）にコピーする．`Main.storyboard`だけは`Base.Iproj/`に入れる．  
 入ったらクローンしてきたリポジトリは削除して構いません．
