@@ -7,6 +7,8 @@ iOSアプリです．Androidには対応していません．
 他人のツイートを名言として使う場合は，ツイートした日付も表示することができます．  
 
 
+![](https://github.com/tmsah/Tear-off_Calendar/blob/images/demo.png)
+
 ## 開発環境
 ```
 macOS: 10.15.1 (Catalina)
@@ -47,11 +49,13 @@ Xcode: 11.2
 }
 ```
 これを366日分用意してください．  
-作者はGoogleSpreadSheetでまとめた後にscvで出力し，jsonに変換しました．  
+作者はGoogleSpreadSheetでまとめた後にcsvで出力し，jsonに変換しました．  
+![](https://github.com/tmsah/Tear-off_Calendar/blob/images/gss.png)
 - 名言を言った人の画像（idのバリエーション分）
     - ファイル名はidと一致させる．デカルトなら`Descartes.png`．
 - スタンプ画像（colorのバリエーション分）
     - ファイル名はcolorの後に`_stamp`．colorがpurpleなら`purple-stamp.png`．
+    ![](https://github.com/tmsah/Tear-off_Calendar/blob/images/purple_stamp.png)
 - 表紙画像（12枚）
     - ファイル名は月(2桁表示)の後に`_cover`．3月用の画像なら`03_cover.png`．
 - 運用期間終了後の表示用画像．（1枚）
@@ -72,6 +76,7 @@ git@github.com:tmsah/Tear-off_Calendar.git
 入ったらクローンしてきたリポジトリは削除して構いません．
 1. 用意しておいた`DatesInfo.json`を同様に作業ディレクトリに置く．
 1. 再びXcodeを起動する．
+1. 作業ディレクトリに追加したファイルをプロジェクトにも追加する（Xcodeからできます．分からない人は調べてくれ．）．
 1. 名言を言った人の画像（idのバリエーション分），スタンプ画像（colorのバリエーション分），表紙画像（12枚），終了画像（1枚）をプロジェクトに追加する．  
 Xcode上で`Assets.xcassets`を選択しておいて，そこにドラッグ&ドロップでいける．
 1. アプリのビルド．（Ctrl + R）．完成．
