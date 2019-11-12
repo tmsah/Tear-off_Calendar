@@ -51,6 +51,12 @@ Xcode: 11.2
 これを366日分用意してください．  
 作者はGoogleSpreadSheetでまとめた後にcsvで出力し，jsonに変換しました．  
 ![](https://github.com/tmsah/Tear-off_Calendar/blob/images/gss.png)
+変換に使ったpythonスクリプトは[ここ](https://github.com/tmsah/Tear-off_Calendar/blob/images/366.py)に置きました（csvファイル名は`366daysWord.csv`）．  
+```
+python 366.py
+```
+整形は，適当にWeb上で整形してくれるサービス使いました．  
+（ここら辺の細かいやり方は何でもいいです．）
 - 名言を言った人の画像（idのバリエーション分）
     - ファイル名はidと一致させる．デカルトなら`Descartes.png`．
 - スタンプ画像（colorのバリエーション分）
