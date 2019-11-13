@@ -33,8 +33,8 @@ class ViewController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.locale = NSLocale(localeIdentifier: "ja_JP") as Locale
-        firstDay = dateFormatter.date(from: "2018-12-31")!
-        lastDay = dateFormatter.date(from: "2020-01-01")!
+        firstDay = dateFormatter.date(from: "2019-12-31")!
+        lastDay = dateFormatter.date(from: "2021-01-01")!
 
         dateFormatter.dateFormat = "MM"
         let month = dateFormatter.string(from: thisDay)
