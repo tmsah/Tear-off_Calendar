@@ -60,7 +60,7 @@ python 366.py
 - 名言を言った人の画像（idのバリエーション分）
     - ファイル名はidと一致させる．デカルトなら`Descartes.png`．
 - スタンプ画像（colorのバリエーション分）
-    - ファイル名はcolorの後に`_stamp`．colorがpurpleなら`purple-stamp.png`．
+    - ファイル名はcolorの後に`_stamp`．colorがpurpleなら`purple_stamp.png`．
     ![](https://github.com/tmsah/Tear-off_Calendar/blob/images/purple_stamp.png)
 - 表紙画像（12枚）
     - ファイル名は月(2桁表示)の後に`_cover`．3月用の画像なら`03_cover.png`．
