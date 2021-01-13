@@ -95,3 +95,7 @@ Xcode上で`Assets.xcassets`を選択しておいて，そこにドラッグ&ド
 その代わりに本家よりも作り込んだ部分も地味にですけどあったりします．MonthlyからDailyに戻る部分とか．  
 一番大変なのは366日分の名言を集めるところですね．  
 ちなみにコード見てもらったら分かりますが考えるのを放棄した脳筋部分が少しあります（`getWordsInfo`とか...）．誰か直してください．
+
+## ライセンス
+Copyright (c) 2019 tmsah.
+Released under [the MIT license](https://opensource.org/licenses/mit-license.php).
